@@ -3,9 +3,11 @@
 namespace App\Http\Services\Logs;
 
 use App\Models\Logs\Logs;
+use App\Models\Visitor;
 use App\Models\Volunteer;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use SebastianBergmann\Environment\Console;
 
 class LogsService
 {
@@ -40,9 +42,8 @@ class LogsService
         $changed = [];
 
         foreach ($schemaColumns as $column) {
-            $oldValue = $old->$column ?? null;
-            $newValue = $new->$column ?? null;
-
+            $oldValue = $old->{$column} ?? null;
+            $newValue = $new->{$column} ?? null;
             if ($oldValue !== $newValue) {
                 $changed[] = [
                     "table_name" => $table,

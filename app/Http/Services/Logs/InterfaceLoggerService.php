@@ -19,7 +19,11 @@ interface InterfaceLoggerService
     /**
      * Persists a log entry for an update/create action.
      */
-    public function log(Model $model, ?Volunteer $volunteer = null): void;
+    public function log(
+        Model $model,
+        Model $old,
+        ?Volunteer $volunteer = null,
+    ): void;
 
     /**
      * Persists a log entry for a delete action.

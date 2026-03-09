@@ -22,17 +22,19 @@ class VisitorLoggerService implements InterfaceLoggerService
         $this->service = $service;
     }
 
-    public function log(Model $model, ?Volunteer $volunteer = null): void
-    {
-        $old = $this->service->getFromVisitor($model);
-        $columns = $this->logsService->buildUpdatedColumns($old, $model);
+    public function log(
+        Model $new,
+        Model $old,
+        ?Volunteer $volunteer = null,
+    ): void {
+        $columns = $this->logsService->buildUpdatedColumns($old, $new);
 
         $log = $this->logsService->create($volunteer);
         $this->logsService->attachColumns($log, $columns);
 
         $logsVisitor = new LogsVisitor();
         $logsVisitor->logs_id = $log->id;
-        $logsVisitor->visitor_id = $model->id;
+        $logsVisitor->visitor_id = $new->id;
         $logsVisitor->save();
     }
 

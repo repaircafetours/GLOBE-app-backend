@@ -17,12 +17,12 @@ class VisitorService
     public function save(Visitor $visitor): void
     {
         $isNew = !$visitor->id;
-        if (!$isNew) {
-            $this->logger->log($visitor);
-        }
         $visitor->save();
-        if ($isNew) {
-            $this->logger->log($visitor);
+        if (!$isNew) {
+            $old = $this->getFromId($visitor->id);
+            $this->logger->log($visitor, $old);
+        } else {
+            $this->logger->log($visitor, new Visitor());
         }
     }
 
