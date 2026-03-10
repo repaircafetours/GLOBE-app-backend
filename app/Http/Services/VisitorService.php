@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Models\Visitor;
 use App\Http\Services\Logs\VisitorLoggerService;
+use Illuminate\Database\Eloquent\Collection;
 
 class VisitorService
 {
@@ -44,8 +45,10 @@ class VisitorService
     {
         return Visitor::find($id);
     }
-
-    public function getAll()
+    /**
+     * @return Collection<int,Visitor>
+     */
+    public function getAll(): Collection
     {
         return Visitor::all();
     }

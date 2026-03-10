@@ -1,0 +1,22 @@
+info:
+  name: Add volunteer
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:8000/api/v1/volunteers
+  body:
+    type: json
+    data: |-
+      {
+        "idHumHub": 8,
+        "regime": "Végétarien"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

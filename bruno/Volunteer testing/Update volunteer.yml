@@ -1,0 +1,21 @@
+info:
+  name: Update volunteer
+  type: http
+  seq: 6
+
+http:
+  method: PATCH
+  url: http://localhost:8000/api/v1/volunteers/1
+  body:
+    type: json
+    data: |-
+      {
+        regime: "Carnivore"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

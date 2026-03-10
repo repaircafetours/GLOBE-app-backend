@@ -1,0 +1,15 @@
+info:
+  name: Delete volunteer
+  type: http
+  seq: 8
+
+http:
+  method: DELETE
+  url: http://localhost:8000/api/v1/volunteers/1
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
