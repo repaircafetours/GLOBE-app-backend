@@ -12,11 +12,9 @@ class ItemController extends Controller
 {
 
     private ItemService $itemService;
-    private VisitorService $visitorService;
 
-    public function __construct(ItemService $itemService,  VisitorService $visitorService) {
+    public function __construct(ItemService $itemService) {
         $this->itemService = $itemService;
-        $this->visitorService = $visitorService;
     }
 
     /**
@@ -34,8 +32,7 @@ class ItemController extends Controller
     {
         $item = new Item();
         $this->updateItemObjectFromRequest($request, $item);
-        $visitor->items[] = $item;
-        $this->visitorService->save($visitor);
+        $this->itemService->appendItemToVisitor($item, $visitor);
     }
 
     /**

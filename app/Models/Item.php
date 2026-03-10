@@ -20,7 +20,8 @@ class Item extends Model
 {
 
 use HasSchemalessAttributes, Lift;
-    //
+
+    public $timestamps = false;
 
     #[Cast("float")]
     public float $weight;

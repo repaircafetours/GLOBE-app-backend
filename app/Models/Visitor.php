@@ -4,7 +4,7 @@ namespace App\Models;
 
 use App\Traits\LoggedModel;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use WendellAdriel\Lift\Attributes\Relations\HasMany;
 use WendellAdriel\Lift\Lift;
 
 use App\Traits\HasSchemalessAttributes;

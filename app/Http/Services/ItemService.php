@@ -20,6 +20,11 @@ class ItemService {
         $item->save();
     }
 
+    public function appendItemToVisitor(Item $item, Visitor $visitor) {
+        $this->logger->log($item);
+        $visitor->items()->save($item);
+    }
+
     /**
      * Returns the old version of the current item. If it has not been inserted
      * in the database, returns the same item
