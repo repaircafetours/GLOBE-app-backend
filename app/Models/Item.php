@@ -27,6 +27,8 @@ use HasSchemalessAttributes, Lift;
     public float $weight;
     public int $age;
     public string $name;
+
+    #[Cast("bool")]
     public bool $is_electric;
     public string $brand;
 
