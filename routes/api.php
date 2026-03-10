@@ -18,6 +18,8 @@ Route::delete("/v1/visitors/{visitor}", [VisitorController::class, 'destroy']);
 
 
 Route::get("/v1/visitors/{visitor}/items", [ItemController::class, 'index']);
+Route::get("/v1/visitors/{visitor}/items/{item}", [ItemController::class, 'show']);
+Route::get("/v1/items/{item}", [ItemController::class, 'showById']);
 Route::post("/v1/visitors/{visitor}/items", [ItemController::class, 'store']);
 
 

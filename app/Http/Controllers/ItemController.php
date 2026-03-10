@@ -38,7 +38,12 @@ class ItemController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Item $item)
+    public function show(Visitor $visitor, string $item)
+    {
+        return $visitor->items[$item];
+    }
+
+    public function showById(Item $item)
     {
         return $item;
     }
