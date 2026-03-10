@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Services\ItemService;
+use App\Http\Services\VisitorService;
 use App\Models\Item;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -11,13 +12,15 @@ class ItemController extends Controller
 {
 
     private ItemService $itemService;
+    private VisitorService $visitorService;
 
-    public function __construct(ItemService $itemService) {
+    public function __construct(ItemService $itemService,  VisitorService $visitorService) {
         $this->itemService = $itemService;
+        $this->visitorService = $visitorService;
     }
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the resource for a specific visitor.
      */
     public function index(Visitor $visitor)
     {
@@ -30,6 +33,9 @@ class ItemController extends Controller
     public function store(Request $request, Visitor $visitor)
     {
         $item = new Item();
+        $this->updateItemObjectFromRequest($request, $item);
+        $visitor->items[] = $item;
+        $this->visitorService->save($visitor);
     }
 
     /**
@@ -42,10 +48,13 @@ class ItemController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param Visitor  $visitor is not used, but it is required to make the route work.
+     * @param Item  The old Item object fetched by laravel
      */
-    public function update(Request $request, Item $item)
+    public function update(Request $request, Visitor $_, Item $item)
     {
-        //
+        $this->updateItemObjectFromRequest($request, $item);
+        $this->itemService->save($item);
     }
 
     /**
@@ -56,12 +65,21 @@ class ItemController extends Controller
         $this->itemService->delete($item);
     }
 
+    /**
+     * Updates the item object given in parameter with the request data.
+     * 
+     * This method **does not** handle any enforcement the model may have
+     * @param Request $request
+     * @param Item $item
+     * @return void
+     */
     private function updateItemObjectFromRequest(Request $request, Item $item) {
-        $item->weight = $request->input("weight", $item->weight);
-        $item->age = $request->input("age", $item->age);
-        $item->name = $request->input("name", $item->name);
-        $item->is_electric = $request->input("is_electric", $item->is_electric);
-        $item->brand = $request->input("brand", $item->brand);
+        // Users may send an integer, so we need to cast it to a float
+        $item->castAndSet("weight",  $request->input("weight", $item->weight ?? null));
+        $item->age = $request->input("age", $item->age ?? null);
+        $item->name = $request->input("name", $item->name ?? null);
+        $item->is_electric = $request->input("is_electric", $item->is_electric ?? false);
+        $item->brand = $request->input("brand", $item->brand ?? null);
         $item->castAndSet("extra_attributes", $request->input("extra_attributes", $item->extra_attributes));
     }
 }

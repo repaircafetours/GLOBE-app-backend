@@ -1,11 +1,11 @@
 info:
-  name: Get All Items From First Visitor
+  name: Get All Items From Visitor
   type: http
   seq: 1
 
 http:
   method: GET
-  url: http://localhost:8000/api/v1/visitors/1/items
+  url: http://localhost:8000/api/v1/visitors/3/items
   auth: inherit
 
 settings:
