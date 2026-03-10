@@ -1,0 +1,28 @@
+info:
+  name: Add Item To Visitor
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: http://localhost:8000/api/v1/visitors/1/items
+  headers:
+    - name: Content-Type
+      value: application/json
+  body:
+    type: json
+    data: |-
+      {
+        "weight": 2,
+        "age": 3,
+        "name": "laptop",
+        "is_electric": true,
+        "brand": "hp"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
