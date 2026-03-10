@@ -4,6 +4,7 @@ namespace App\Http\Services;
 
 use App\Http\Services\Logs\ItemLoggerService;
 use App\Models\Item;
+use App\Models\Visitor;
 
 class ItemService {
 
@@ -32,6 +33,10 @@ class ItemService {
 
     public function getFromId(int $id): Item {
         return Item::find($id);
+    }
+
+    public function getFromVisitor(Visitor $visitor) {
+        return $visitor->items;
     }
 
     public function getAll() {
