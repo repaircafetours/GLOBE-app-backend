@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Traits\HasSchemalessAttributes;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Spatie\SchemalessAttributes\Casts\SchemalessAttributes as SchemalessAttributesCast;
+use Spatie\SchemalessAttributes\SchemalessAttributes;
+use WendellAdriel\Lift\Attributes\Cast;
 use WendellAdriel\Lift\Attributes\Relations\BelongsToMany;
 use WendellAdriel\Lift\Lift;
 
@@ -19,12 +22,14 @@ class Item extends Model
 use HasSchemalessAttributes, Lift;
     //
 
+    #[Cast("float")]
     public float $weight;
     public int $age;
     public string $name;
     public bool $is_electric;
     public string $brand;
 
-    public array $extra_attributes = [];
+    #[Cast(SchemalessAttributesCast::class)]
+    public SchemalessAttributes $extra_attributes;
 
 }

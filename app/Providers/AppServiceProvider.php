@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Http\Services\ItemService;
+use App\Http\Services\Logs\ItemLoggerService;
 use App\Http\Services\Logs\VisitorLoggerService;
 use App\Http\Services\VisitorService;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,17 @@ class AppServiceProvider extends ServiceProvider
             );
         });
         $this->app->make(VisitorLoggerService::class)->initialize($this->app->make(VisitorService::class));
+
+
+
+        /*$this->app->singleton((ItemLoggerService::class), function($app)  {
+            return new ItemLoggerService();
+        });
+        $this->app->singleton(ItemService::class, function ($app) {
+            return new ItemService(
+                $app->make(ItemLoggerService::class)
+            );
+        });*/
     }
 
     /**

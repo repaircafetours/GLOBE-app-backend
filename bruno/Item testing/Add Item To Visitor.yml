@@ -6,6 +6,9 @@ info:
 http:
   method: POST
   url: http://localhost:8000/api/v1/visitors/3/items
+  headers:
+    - name: Content-Type
+      value: application/json
   body:
     type: json
     data: |-
@@ -14,8 +17,7 @@ http:
         "age": 3,
         "name": "laptop",
         "is_electric": true,
-        "brand": "hp",
-        "schemaless_attributes": []
+        "brand": "hp"
       }
   auth: inherit
 

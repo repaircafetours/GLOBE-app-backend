@@ -80,6 +80,6 @@ class ItemController extends Controller
         $item->name = $request->input("name", $item->name ?? null);
         $item->is_electric = $request->input("is_electric", $item->is_electric ?? false);
         $item->brand = $request->input("brand", $item->brand ?? null);
-        $item->castAndSet("extra_attributes", $request->input("extra_attributes", $item->extra_attributes));
+        $item->castAndSet("extra_attributes", $request->input("extra_attributes", $item->extra_attributes ?? []));
     }
 }
