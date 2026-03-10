@@ -53,7 +53,7 @@ class ItemController extends Controller
      * @param Visitor  $visitor is not used, but it is required to make the route work.
      * @param Item  The old Item object fetched by laravel
      */
-    public function update(Request $request, Visitor $_, Item $item)
+    public function update(Request $request, Item $item)
     {
         $this->updateItemObjectFromRequest($request, $item);
         $this->itemService->save($item);

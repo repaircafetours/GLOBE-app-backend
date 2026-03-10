@@ -1,11 +1,17 @@
 info:
-  name: Get specific item
+  name: update Item
   type: http
-  seq: 5
+  seq: 7
 
 http:
-  method: GET
+  method: PATCH
   url: http://localhost:8000/api/v1/items/1
+  body:
+    type: json
+    data: |-
+      {
+        "weight": 999
+      }
   auth: inherit
 
 settings:
