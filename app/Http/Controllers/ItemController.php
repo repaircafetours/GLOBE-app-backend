@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\ExtraAttributesService;
 use App\Http\Services\ItemService;
-use App\Http\Services\VisitorService;
 use App\Models\Item;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -12,9 +12,11 @@ class ItemController extends Controller
 {
 
     private ItemService $itemService;
+    private ExtraAttributesService $extraAttributesService;
 
-    public function __construct(ItemService $itemService) {
+    public function __construct(ItemService $itemService, ExtraAttributesService $extraAttributesService) {
         $this->itemService = $itemService;
+        $this->extraAttributesService = $extraAttributesService;
     }
 
     /**
@@ -82,6 +84,6 @@ class ItemController extends Controller
         $item->name = $request->input("name", $item->name ?? null);
         $item->is_electric = $request->input("is_electric", $item->is_electric ?? false);
         $item->brand = $request->input("brand", $item->brand ?? null);
-        $item->castAndSet("extra_attributes", $request->input("extra_attributes", $item->extra_attributes ?? []));
+        $this->extraAttributesService->updateAttributes($item, $request->input("extra_attributes", $item->extra_attributes ?? []));
     }
 }
