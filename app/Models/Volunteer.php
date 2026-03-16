@@ -19,5 +19,4 @@ class Volunteer extends Model
 
     public $timestamps = false;
     public int $idHumHub;
-    public string $regime;
 }

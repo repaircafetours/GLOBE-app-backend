@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Role;
-use App\Models\Speciality;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,7 +13,6 @@ return new class extends Migration {
         Schema::create("volunteers", function (Blueprint $table) {
             $table->id();
             $table->integer("idHumHub");
-            $table->string("regime");
             $table->schemalessAttributes("extra_attributes");
         });
     }
