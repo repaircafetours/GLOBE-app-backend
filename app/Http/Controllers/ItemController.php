@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreItemRequest;
+use App\Http\Requests\UpdateItemRequest;
 use App\Http\Services\ItemService;
 use App\Http\Services\VisitorService;
 use App\Models\Item;
@@ -18,7 +20,7 @@ class ItemController extends Controller
     }
 
     /**
-     * Display a listing of the resource for a specific visitor.
+     * Display all items related to the given visitor.
      */
     public function index(Visitor $visitor)
     {
@@ -26,9 +28,9 @@ class ItemController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Add a new item to the given visitor
      */
-    public function store(Request $request, Visitor $visitor)
+    public function store(StoreItemRequest $request, Visitor $visitor)
     {
         $item = new Item();
         $this->updateItemObjectFromRequest($request, $item);
@@ -36,31 +38,37 @@ class ItemController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a specific item of the given visitor.
+     * 
+     * The item is fetched by order of creation and availability. This means that using 0 as the item
+     * parameter will return the first item of the visitor, 1 will return the second item and so on.
      */
-    public function show(Visitor $visitor, string $item)
+    public function show(Visitor $visitor, string $item): Item
     {
         return $visitor->items[$item];
     }
 
+    /**
+     * Show a specific item.
+     */
     public function showById(Item $item)
     {
         return $item;
     }
 
     /**
-     * Update the specified resource in storage.
-     * @param Visitor  $visitor is not used, but it is required to make the route work.
+     * Update an existing item.
+     * @param UpdateItemRequest $request The request containing the new item data
      * @param Item  The old Item object fetched by laravel
      */
-    public function update(Request $request, Item $item)
+    public function update(UpdateItemRequest $request, Item $item)
     {
         $this->updateItemObjectFromRequest($request, $item);
         $this->itemService->save($item);
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove an item.
      */
     public function destroy(Item $item)
     {

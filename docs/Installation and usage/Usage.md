@@ -62,3 +62,8 @@ You can simply run `docker compose up` and the app will be available on the port
 The `compose.yaml` file uses the same environement variables as the `.env` file
 
 :::
+
+
+# Reaching the documentation
+
+You can find the REST API documentation on `<url>/docs/api`

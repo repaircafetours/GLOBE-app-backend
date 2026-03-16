@@ -28,6 +28,9 @@ class Visitor extends Model
 
     public $timestamps = false;
 
+    /**
+     * @example "TEST"
+     */
     public string $email;
 
     public string $title;
