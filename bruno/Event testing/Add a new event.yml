@@ -13,9 +13,8 @@ http:
         "city": "Tours",
         "zip_code": "37000",
         "address": "22 rue",
-        "date": ""
+        "date": "2026-05-30T18:00:00.000"
       }
-  auth: inherit
 
 settings:
   encodeUrl: true
