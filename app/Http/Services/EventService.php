@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Http\Services;
+
 use App\Models\Event;
 use App\Models\Item;
 use App\Models\Visitor;
