@@ -31,7 +31,7 @@ Route::post("/v1/events", [EventController::class, 'store']);
 Route::get("/v1/events/{event}", [EventController::class, 'show']);
 Route::patch("/v1/events/{event}", [EventController::class, 'update']);
 Route::delete("/v1/events/{event}", [EventController::class, 'destroy']);
-
+Route::post("/v1/events/{event}/{item}", [EventController::class, 'addNewItemToEvent']);
 
 Route::get('/volunteer', [VolunteerController::class, 'index']);
 

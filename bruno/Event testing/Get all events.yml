@@ -1,11 +1,11 @@
 info:
-  name: Gett all events
+  name: Get all events
   type: http
   seq: 1
 
 http:
   method: GET
-  url: http://localhost:8000/api/v1/event
+  url: http://localhost:8000/api/v1/events
   auth: inherit
 
 settings:
