@@ -14,10 +14,9 @@ jobs:
       - name: Install dependencies
         run: apk add --no-cache git rsync
 
-      - name: Checkout source repo
-        uses: actions/checkout@v4
-        with:
-          path: source-repo
+      - name: clone documentation repo
+        run: |
+          git clone https://github.com/repaircafetours/Documentation.git 
 
       - name: Checkout target repo
         uses: actions/checkout@v4
