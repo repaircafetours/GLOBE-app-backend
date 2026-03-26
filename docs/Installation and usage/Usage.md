@@ -45,7 +45,7 @@ php artisan migrate
 
 Once you configured the .env file you can run the api with a simple command.
 
-```
+```sh
 
 php artisan serve
 
@@ -63,6 +63,15 @@ The `compose.yaml` file uses the same environement variables as the `.env` file
 
 :::
 
+### First usage
+
+When using the docker compose for the first time you will need to initialize the database with 
+
+```sh
+
+php artisan serve
+
+```
 
 # Reaching the documentation
 
