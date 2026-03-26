@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\VolunteerController;
@@ -23,6 +24,13 @@ Route::post("/v1/visitors/{visitor}/items", [ItemController::class, 'store']);
 Route::get("/v1/items/{item}", [ItemController::class, 'showById']);
 Route::patch("/v1/items/{item}", [ItemController::class, 'update']);
 Route::delete("/v1/items/{item}", [ItemController::class, 'destroy']);
+
+
+Route::get("/v1/events", [EventController::class, 'index']);
+Route::post("/v1/events", [EventController::class, 'store']);
+Route::get("/v1/events/{event}", [EventController::class, 'show']);
+Route::patch("/v1/events/{event}", [EventController::class, 'update']);
+Route::delete("/v1/events/{event}", [EventController::class, 'destroy']);
 
 
 Route::get('/volunteer', [VolunteerController::class, 'index']);
