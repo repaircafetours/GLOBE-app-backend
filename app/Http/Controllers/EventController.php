@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateEventRequest;
 use App\Http\Services\ExtraAttributesService;
 use App\Models\Event;
 use App\Http\Services\EventService;
+use App\Models\Item;
+use App\Models\Visitor;
 
 class EventController extends Controller
 {
@@ -48,6 +50,16 @@ class EventController extends Controller
     public function show(Event $event)
     {
         return $event;
+    }
+
+    /**
+     * Insert a Item in the event
+     * @param Event $event
+     * @param Item $item
+     * @return void
+     */
+    public function addNewItemToEvent(Event $event, Item $item) {
+        $this->eventService->addVisitorItemToEvent($event, $item);
     }
 
     /**
