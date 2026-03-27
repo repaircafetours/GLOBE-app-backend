@@ -32,7 +32,7 @@ use HasSchemalessAttributes, Lift;
     public bool $is_electric;
     public string $brand;
 
-    #[Cast(SchemalessAttributesCast::class)]
-    public SchemalessAttributes $extra_attributes;
+    //#[Cast(SchemalessAttributesCast::class)]
+    //public SchemalessAttributes $extra_attributes;
 
 }

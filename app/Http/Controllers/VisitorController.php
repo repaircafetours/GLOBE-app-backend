@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVisitorRequest;
 use App\Http\Requests\UpdateVisitorRequest;
+use App\Http\Services\ExtraAttributesService;
 use App\Http\Services\VisitorService;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -13,10 +14,12 @@ use Spatie\SchemalessAttributes\SchemalessAttributes;
 class VisitorController extends Controller
 {
     private VisitorService $visitorService;
+    private ExtraAttributesService $extraAttributesService;
 
-    public function __construct(VisitorService $visitorService)
+    public function __construct(VisitorService $visitorService, ExtraAttributesService $extraAttributesService)
     {
         $this->visitorService = $visitorService;
+        $this->extraAttributesService = $extraAttributesService;
     }
 
     /**
@@ -42,8 +45,7 @@ class VisitorController extends Controller
         $visitor->source = $request->input("source");
         $visitor->notification = $request->input("notification", false);
         $visitor->email = $request->input("email");
-        $visitor->castAndSet("extra_attributes", $request->input("extra_attributes", []));
-        // $visitor->extra_attributes = $request->input("extra_attributes");
+        $this->extraAttributesService->updateAttributes($visitor, $request->input("extra_attributes", []));
         $this->visitorService->save($visitor);
     }
 
@@ -69,7 +71,7 @@ class VisitorController extends Controller
         $visitor->source = $request->input("source", $visitor->source);
         $visitor->notification = $request->input("notification", $visitor->notification);
         $visitor->email = $request->input("email", $visitor->email);
-        $visitor->extra_attributes = $request->input("extra_attributes", $visitor->extra_attributes);
+        $this->extraAttributesService->updateAttributes($visitor, $request->input("extra_attributes", $visitor->extra_attributes ?? []));
         $this->visitorService->save($visitor);
         return $visitor;
     }
