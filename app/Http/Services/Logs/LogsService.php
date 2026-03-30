@@ -22,8 +22,8 @@ class LogsService
     }
 
     /**
-     * Compare deux instances d'un modèle et retourne les colonnes modifiées.
-     * Seules les colonnes présentes dans information_schema sont comparées.
+     * Compares two instances of a model and returns the modified columns.
+     * Only columns present in `information_schema` are compared.
      *
      * @return array<array{table_name: string, column_name: string, old_value: mixed, new_value: mixed}>
      */
@@ -32,7 +32,7 @@ class LogsService
         $table = $new->getTable();
         $database = DB::getDatabaseName();
 
-        // Récupère les colonnes existantes depuis information_schema
+        // Retrieves existing columns from the schema information in // order to compare wich one has been modified
         $schemaColumns = DB::table("information_schema.COLUMNS")
             ->where("TABLE_SCHEMA", $database)
             ->where("TABLE_NAME", $table)
@@ -56,7 +56,7 @@ class LogsService
     }
 
     /**
-     * Attache les colonnes modifiées à un log existant.
+     * Appends modified columns to an existing log.
      *
      * @param array<array{table_name: string, column_name: string, old_value: mixed, new_value: mixed}> $columns
      */
