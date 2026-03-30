@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  copy-to-target-repo:
+  copy-documentation-to-docs-repo:
     runs-on: ubuntu-latest
     container: alpine:3.19
 
@@ -14,27 +14,19 @@ jobs:
       - name: Install dependencies
         run: apk add --no-cache git rsync
 
-      - name: Checkout source repo
-        uses: actions/checkout@v4
-        with:
-          path: source-repo
-
       - name: Checkout target repo
         uses: actions/checkout@v4
         with:
           repository: repaircafetours/Documentation
-          ref: master
+          ref: main
           token: ${{ secrets.DOCS_REPO_TOKEN }}
           path: target-repo
 
       - name: Copy content to /docs/api
         run: |
-          # Vide le répertoire cible avant la copie (hors .git)
           rm -rf target-repo/docs/api/*
           mkdir -p target-repo/docs/api
-
-          # Copie tout le contenu du dépôt source (hors .git)
-          rsync -av --exclude='.git' source-repo/ target-repo/docs/api/
+          cp -rf docs/* target-repo/docs/api/
 
       - name: Commit and push changes
         run: |
@@ -42,8 +34,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          git add docs/api/
-          git diff --cached --quiet && echo "Aucun changement à commiter." && exit 0
+          git add .
+          git diff --cached --quiet && echo "No changes to commit." && exit 0
 
-          git commit -m "chore: sync docs/api depuis ${{ github.repository }}@${{ github.sha }}"
-          git push origin master
+          git commit -m "chore: synced docs/api from ${{ github.repository }}@${{ github.sha }}"
+          git push origin main

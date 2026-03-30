@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVisitorRequest;
+use App\Http\Requests\UpdateVisitorRequest;
 use App\Http\Services\ExtraAttributesService;
 use App\Http\Services\VisitorService;
 use App\Models\Visitor;
@@ -21,7 +23,7 @@ class VisitorController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * Show all visitors.
      */
     public function index()
     {
@@ -29,9 +31,9 @@ class VisitorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new visitor
      */
-    public function store(Request $request)
+    public function store(StoreVisitorRequest $request)
     {
         $visitor = new Visitor();
         $visitor->title = $request->input("title");
@@ -48,17 +50,17 @@ class VisitorController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show the specified Visitor.
      */
-    public function show(Visitor $visitor)
+    public function show(Visitor $visitor): Visitor
     {
         return $visitor;
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a visitor
      */
-    public function update(Request $request, Visitor $visitor)
+    public function update(UpdateVisitorRequest $request, Visitor $visitor)
     {
         $visitor->title = $request->input("title", $visitor->title);
         $visitor->name = $request->input("name", $visitor->name);
@@ -75,7 +77,7 @@ class VisitorController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a visitor
      */
     public function destroy(Visitor $visitor)
     {
