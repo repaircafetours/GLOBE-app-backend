@@ -1,0 +1,41 @@
+name: Copy to docs/api
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  copy-documentation-to-docs-repo:
+    runs-on: ubuntu-latest
+    container: alpine:3.19
+
+    steps:
+      - name: Install dependencies
+        run: apk add --no-cache git rsync
+
+      - name: Checkout target repo
+        uses: actions/checkout@v4
+        with:
+          repository: repaircafetours/Documentation
+          ref: main
+          token: ${{ secrets.DOCS_REPO_TOKEN }}
+          path: target-repo
+
+      - name: Copy content to /docs/api
+        run: |
+          rm -rf target-repo/docs/api/*
+          mkdir -p target-repo/docs/api
+          cp -rf docs/* target-repo/docs/api/
+
+      - name: Commit and push changes
+        run: |
+          cd target-repo
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add .
+          git diff --cached --quiet && echo "No changes to commit." && exit 0
+
+          git commit -m "chore: synced docs/api from ${{ github.repository }}@${{ github.sha }}"
+          git push origin main

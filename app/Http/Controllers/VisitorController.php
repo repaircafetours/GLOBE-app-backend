@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreVisitorRequest;
+use App\Http\Requests\UpdateVisitorRequest;
+use App\Http\Services\ExtraAttributesService;
 use App\Http\Services\VisitorService;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
@@ -11,14 +14,16 @@ use Spatie\SchemalessAttributes\SchemalessAttributes;
 class VisitorController extends Controller
 {
     private VisitorService $visitorService;
+    private ExtraAttributesService $extraAttributesService;
 
-    public function __construct(VisitorService $visitorService)
+    public function __construct(VisitorService $visitorService, ExtraAttributesService $extraAttributesService)
     {
         $this->visitorService = $visitorService;
+        $this->extraAttributesService = $extraAttributesService;
     }
 
     /**
-     * Display a listing of the resource.
+     * Show all visitors.
      */
     public function index()
     {
@@ -26,9 +31,9 @@ class VisitorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new visitor
      */
-    public function store(Request $request)
+    public function store(StoreVisitorRequest $request)
     {
         $visitor = new Visitor();
         $visitor->title = $request->input("title");
@@ -40,23 +45,22 @@ class VisitorController extends Controller
         $visitor->source = $request->input("source");
         $visitor->notification = $request->input("notification", false);
         $visitor->email = $request->input("email");
-        $visitor->castAndSet("extra_attributes", $request->input("extra_attributes", []));
-        // $visitor->extra_attributes = $request->input("extra_attributes");
+        $this->extraAttributesService->updateAttributes($visitor, $request->input("extra_attributes", []));
         $this->visitorService->save($visitor);
     }
 
     /**
-     * Display the specified resource.
+     * Show the specified Visitor.
      */
-    public function show(Visitor $visitor)
+    public function show(Visitor $visitor): Visitor
     {
         return $visitor;
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a visitor
      */
-    public function update(Request $request, Visitor $visitor)
+    public function update(UpdateVisitorRequest $request, Visitor $visitor)
     {
         $visitor->title = $request->input("title", $visitor->title);
         $visitor->name = $request->input("name", $visitor->name);
@@ -67,13 +71,13 @@ class VisitorController extends Controller
         $visitor->source = $request->input("source", $visitor->source);
         $visitor->notification = $request->input("notification", $visitor->notification);
         $visitor->email = $request->input("email", $visitor->email);
-        $visitor->extra_attributes = $request->input("extra_attributes", $visitor->extra_attributes);
+        $this->extraAttributesService->updateAttributes($visitor, $request->input("extra_attributes", $visitor->extra_attributes ?? []));
         $this->visitorService->save($visitor);
         return $visitor;
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a visitor
      */
     public function destroy(Visitor $visitor)
     {

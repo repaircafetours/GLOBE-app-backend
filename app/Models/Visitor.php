@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use WendellAdriel\Lift\Attributes\Relations\HasMany;
 use WendellAdriel\Lift\Lift;
 
 use App\Traits\HasSchemalessAttributes;
@@ -25,6 +25,9 @@ class Visitor extends Model
     use HasSchemalessAttributes, Lift;
     public $timestamps = false;
 
+    /**
+     * @example "TEST"
+     */
     public string $email;
 
     public string $title;

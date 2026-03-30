@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\VisitorController;
 use App\Http\Controllers\VolunteerController;
 use Illuminate\Http\Request;
