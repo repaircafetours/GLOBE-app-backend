@@ -6,7 +6,11 @@ use App\Http\Services\VolunteerRolesService;
 use App\Http\Services\VolunteerService;
 use App\Models\Role;
 use App\Models\Volunteer;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Collection;
+use App\Http\Requests\StoreVolunteerRequest;
+use App\Http\Requests\PatchVolunteerRequest;
 
 class VolunteerController extends Controller
 {
@@ -23,34 +27,51 @@ class VolunteerController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @return Collection<int,Volunteer>
      */
-    public function index()
+    public function index(): Collection
     {
-        return Volunteer::all();
+        return $this->volunteerService->getAll();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreVolunteerRequest $request)
     {
-        Volunteer::create($request->all());;
+        $validated = $request->validated();
+        $volunteer = new Volunteer();
+        $volunteer->idHumHub = $validated["idHumHub"];
+        $volunteer->castAndSet(
+            "extra_attributes",
+            $request->input("extra_attributes", []),
+        );
+
+        $this->volunteerService->save($volunteer);
+
+        return $volunteer;
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(int $volunteer_id)
+    public function show(Volunteer $volunteer): Volunteer
     {
-        return Volunteer::find($volunteer_id);
+        return $volunteer;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Volunteer $volunteer)
-    {
-        //
+    public function update(
+        PatchVolunteerRequest $request,
+        Volunteer $volunteer,
+    ): void {
+        $validated = $request->validated();
+        $volunteer->idHumHub = $validated["idHumHub"];
+        $volunteer->extra_attributes = $validated["extra_attributes"] ?? [];
+
+        $this->volunteerService->save($volunteer);
     }
 
     /**

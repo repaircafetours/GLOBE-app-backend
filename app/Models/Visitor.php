@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\LoggedModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use WendellAdriel\Lift\Lift;
@@ -15,8 +14,6 @@ use WendellAdriel\Lift\Attributes\Rules;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes as SchemalessAttributesCast;
 use Spatie\SchemalessAttributes\SchemalessAttributes;
 
-#[HasMany(Item::class)]
-#[HasManyThrough(Event::class, Item::class)]
 /**
  * @property Item[] $items
  * @property Visitor[] $visitors
