@@ -1,48 +1,31 @@
 <?php
-
 namespace App\Providers;
 
-use App\Http\Services\ItemService;
-use App\Http\Services\Logs\ItemLoggerService;
+use App\Http\Services\Logs\LogsService;
 use App\Http\Services\Logs\VisitorLoggerService;
 use App\Http\Services\VisitorService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
     public function register(): void
     {
+        $this->app->singleton(LogsService::class, function ($app) {
+            return new LogsService();
+        });
+
         $this->app->singleton(VisitorLoggerService::class, function ($app) {
-            return new VisitorLoggerService();
+            //throw $app->make(LogsService::class);
+            return new VisitorLoggerService($app->make(LogsService::class));
         });
 
         $this->app->singleton(VisitorService::class, function ($app) {
-            return new VisitorService(
-                $app->make(VisitorLoggerService::class)
-            );
+            $visitorLogger = $app->make(VisitorLoggerService::class);
+            $service = new VisitorService($visitorLogger);
+            $visitorLogger->initialize($service);
+            return $service;
         });
-        $this->app->make(VisitorLoggerService::class)->initialize($this->app->make(VisitorService::class));
-
-
-
-        /*$this->app->singleton((ItemLoggerService::class), function($app)  {
-            return new ItemLoggerService();
-        });
-        $this->app->singleton(ItemService::class, function ($app) {
-            return new ItemService(
-                $app->make(ItemLoggerService::class)
-            );
-        });*/
     }
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot(): void
-    {
-        //
-    }
+    public function boot(): void {}
 }

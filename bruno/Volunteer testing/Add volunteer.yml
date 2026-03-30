@@ -1,0 +1,28 @@
+info:
+  name: Add volunteer
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: http://localhost:8000/api/v1/volunteers
+  headers:
+    - name: Content-Type
+      value: application/x-www-form-urlencoded
+      disabled: true
+    - name: Content-Type
+      value: application/json
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "idHumHub": 8
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
