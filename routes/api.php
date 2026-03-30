@@ -38,34 +38,25 @@ Route::delete($rootV1 . "/volunteers/{volunteer}", [
     "destroy",
 ]);
 
-Route::post($rootV1 . "/volunteers/{id}/roles/{role_name}", [
-    VolunteerController::class,
-    "addRoleByName",
-]);
-
-Route::post($rootV1 . "/volunteers/{id}/roles/{role_id}/add", [
+Route::post($rootV1 . "/volunteers/{volunteer}/roles/{role}/add", [
     VolunteerController::class,
     "addRole",
 ]);
 
-Route::delete($rootV1 . "/volunteers/{id}/roles/{role_id}", [
+Route::delete($rootV1 . "/volunteers/{volunteer}/roles/{role}", [
     VolunteerController::class,
     "removeRole",
 ]);
 
-Route::put($rootV1 . "/volunteers/{id}/roles", [
+Route::put($rootV1 . "/volunteers/{volunteer}/roles", [
     VolunteerController::class,
     "replaceRoles",
 ]);
-Route::get($rootV1 . "/volunteers/{id}/roles", [
+Route::get($rootV1 . "/volunteers/{volunteer}/roles", [
     VolunteerController::class,
     "getRoles",
 ]);
-Route::get($rootV1 . "/volunteers/{id}/roles/check/{role_id}", [
+Route::get($rootV1 . "/volunteers/{volunteer}/roles/check/{role}", [
     VolunteerController::class,
     "hasRole",
-]);
-Route::delete($rootV1 . "/volunteers/{id}/roles/{role_name}", [
-    VolunteerController::class,
-    "removeRoleByName",
 ]);

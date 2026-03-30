@@ -12,8 +12,8 @@ use WendellAdriel\Lift\Lift;
  * @property Speciality[] $speciality
  * @property Role[] $role
  */
-#[BelongsToMany(Speciality::class, pivotModel: "volunteer_speciality")]
-#[BelongsToMany(Role::class, pivotModel: "volunteer_roles")]
+#[BelongsToMany(Speciality::class, table: "volunteer_speciality")]
+#[BelongsToMany(Role::class, table: "volunteer_roles")]
 class Volunteer extends Model
 {
     use HasSchemalessAttributes, Lift;

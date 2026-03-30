@@ -11,7 +11,7 @@ class UpdateVisitorRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -31,7 +31,7 @@ class UpdateVisitorRequest extends FormRequest
             "source" => "nullable|string",
             "notification" => "nullable|boolean",
             "email" => "nullable|email",
-            'extra_attributes' => 'nullable|object',
+            "extra_attributes" => "nullable|object",
         ];
     }
 }
