@@ -21,11 +21,11 @@ use Spatie\SchemalessAttributes\SchemalessAttributes;
  * @property Item[] $items
  * @property Visitor[] $visitors
  */
+#[HasMany(Item::class)]
+#[HasManyThrough(Event::class, Item::class)]
 class Visitor extends Model
 {
-
-    use HasSchemalessAttributes, Lift, LoggedModel;
-
+    use HasSchemalessAttributes, Lift;
     public $timestamps = false;
 
     public string $email;
@@ -42,7 +42,7 @@ class Visitor extends Model
 
     #[Cast("bool")]
     public bool $notification;
-    
+
     #[Cast(SchemalessAttributesCast::class)]
     public SchemalessAttributes $extra_attributes;
 }
