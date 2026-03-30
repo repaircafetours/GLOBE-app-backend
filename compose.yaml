@@ -13,6 +13,7 @@ services:
       DB_CONNECTION: mysql
       APP_NAME: Backend
       APP_URL: http://localhost:8000
+      LISTEN_ON: 0.0.0.0
       APP_DEBUG: true
       LOG_CHANNEL: stack
       LOG_STACK: single
