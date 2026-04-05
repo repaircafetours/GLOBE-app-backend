@@ -18,6 +18,12 @@ Route::post($rootV1 . "/auth/login", [AuthController::class, "login"]);
 // ---------------------------------------------------------------------------
 Route::post($rootV1 . "/visitors", [VisitorController::class, "store"]);
 
+// Visitor edit token generation
+Route::post($rootV1 . "/visitors/token", [
+    VisitorController::class,
+    "generateToken",
+]);
+
 // ---------------------------------------------------------------------------
 // Visitors – update via visitor edit token OR Sanctum role:1,3
 // ---------------------------------------------------------------------------

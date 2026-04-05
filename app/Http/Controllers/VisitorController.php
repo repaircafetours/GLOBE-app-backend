@@ -66,6 +66,37 @@ class VisitorController extends Controller
     }
 
     /**
+     * Generate a short-lived edit token for a visitor.
+     * Only accessible to authenticated volunteers with role Opérationnel (3)
+     * or Administrateur (1) – enforced at the route level.
+     *
+     * Returns the plain-text token that must be transmitted to the visitor.
+     */
+    public function generateToken(Request $request)
+    {
+        $request->validate([
+            "email" => "required|email",
+        ]);
+
+        $visitor = Visitor::where("email", $request->email)->first();
+
+        if (!$visitor) {
+            return response()->json(
+                [
+                    "message" => "No visitor found with this email.",
+                ],
+                404,
+            );
+        }
+
+        $this->tokenService->send($visitor);
+
+        return response()->json([
+            "message" => "Link sent by email.",
+        ]);
+    }
+
+    /**
      * Update a visitor.
      *
      * Access is handled by the AuthorizeVisitorUpdate middleware, which allows:
