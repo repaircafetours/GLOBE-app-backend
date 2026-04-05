@@ -5,10 +5,12 @@ info:
 
 http:
   method: POST
-  url: http://localhost:8000/api/v1/visitors/1/items
+  url: "{{baseUrl}}/api/v1/visitors/1/items"
   headers:
     - name: Content-Type
       value: application/json
+    - name: Authorization
+      value: Bearer {{bearerToken}}
   body:
     type: json
     data: |-
@@ -19,7 +21,6 @@ http:
         "is_electric": true,
         "brand": "hp"
       }
-  auth: inherit
 
 settings:
   encodeUrl: true

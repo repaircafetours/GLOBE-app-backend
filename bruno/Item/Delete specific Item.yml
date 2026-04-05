@@ -5,8 +5,10 @@ info:
 
 http:
   method: DELETE
-  url: ""
-  auth: inherit
+  url: "{{baseUrl}}/api/v1/items/1"
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
 
 settings:
   encodeUrl: true

@@ -36,18 +36,26 @@ class VolunteerController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * The authenticated volunteer (admin) is recorded as the actor in the audit log.
      */
-    public function store(StoreVolunteerRequest $request)
+    public function store(StoreVolunteerRequest $request): Volunteer
     {
         $validated = $request->validated();
+
         $volunteer = new Volunteer();
         $volunteer->idHumHub = $validated["idHumHub"];
+        $volunteer->password = $validated["password"];
+        $volunteer->login = $validated["login"] ?? null;
         $volunteer->castAndSet(
             "extra_attributes",
             $request->input("extra_attributes", []),
         );
 
-        $this->volunteerService->save($volunteer);
+        /** @var Volunteer|null $actor */
+        $actor =
+            $request->user() instanceof Volunteer ? $request->user() : null;
+
+        $this->volunteerService->save($volunteer, $actor);
 
         return $volunteer;
     }
@@ -62,24 +70,38 @@ class VolunteerController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * The authenticated volunteer is recorded as the actor in the audit log.
      */
     public function update(
         PatchVolunteerRequest $request,
         Volunteer $volunteer,
     ): void {
         $validated = $request->validated();
-        $volunteer->idHumHub = $validated["idHumHub"];
-        $volunteer->extra_attributes = $validated["extra_attributes"] ?? [];
+        $volunteer->idHumHub = $validated["idHumHub"] ?? $volunteer->idHumHub;
+        $volunteer->login = array_key_exists("login", $validated)
+            ? $validated["login"]
+            : $volunteer->login;
+        $volunteer->extra_attributes =
+            $validated["extra_attributes"] ?? $volunteer->extra_attributes;
 
-        $this->volunteerService->save($volunteer);
+        /** @var Volunteer|null $actor */
+        $actor =
+            $request->user() instanceof Volunteer ? $request->user() : null;
+
+        $this->volunteerService->save($volunteer, $actor);
     }
 
     /**
      * Remove the specified resource from storage.
+     * The authenticated volunteer is recorded as the actor in the audit log.
      */
-    public function destroy(Volunteer $volunteer): void
+    public function destroy(Request $request, Volunteer $volunteer): void
     {
-        $this->volunteerService->delete($volunteer);
+        /** @var Volunteer|null $actor */
+        $actor =
+            $request->user() instanceof Volunteer ? $request->user() : null;
+
+        $this->volunteerService->delete($volunteer, $actor);
     }
 
     /**

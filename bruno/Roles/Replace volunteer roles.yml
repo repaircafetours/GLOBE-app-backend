@@ -5,14 +5,16 @@ info:
 
 http:
   method: PUT
-  url: http://localhost:8000/api/v1/volunteers/1/roles
+  url: "{{baseUrl}}/api/v1/volunteers/1/roles"
   body:
     type: json
     data: |-
       {
         "role_ids": [1, 2]
       }
-  auth: inherit
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
 
 settings:
   encodeUrl: true

@@ -3,6 +3,7 @@
 namespace App\Http\Services;
 
 use App\Models\Visitor;
+use App\Models\Volunteer;
 use App\Http\Services\Logs\VisitorLoggerService;
 use Illuminate\Database\Eloquent\Collection;
 
@@ -15,23 +16,27 @@ class VisitorService
         $this->logger = $logger;
     }
 
-    public function save(Visitor $visitor): void
+    public function save(Visitor $visitor, ?Volunteer $actor = null): void
     {
         $isNew = !$visitor->id;
-        $visitor->save();
-        if (!$isNew) {
-            $old = $this->getFromId($visitor->id);
-            $this->logger->log($visitor, $old);
+
+        if ($isNew) {
+            $visitor->save();
+            $this->logger->log($visitor, new Visitor(), $actor);
         } else {
-            $this->logger->log($visitor, new Visitor());
+            // Fetch the old state BEFORE overwriting it with save()
+            $old = $this->getFromId($visitor->id) ?? new Visitor();
+            $visitor->save();
+            $this->logger->log($visitor, $old, $actor);
         }
     }
 
     /**
      * Returns the old version of the current visitor. If it has not already been inserted in
-     * database, returns a new empty visitor
+     * database, returns a new empty visitor.
+     *
      * @param Visitor $visitor
-     * @return Visitor The databse instance of the requested Visitor, or an empty instance if it does not exists
+     * @return Visitor The database instance of the requested Visitor, or an empty instance if it does not exist
      */
     public function getFromVisitor(Visitor $visitor): Visitor
     {
@@ -45,6 +50,7 @@ class VisitorService
     {
         return Visitor::find($id);
     }
+
     /**
      * @return Collection<int,Visitor>
      */
@@ -53,9 +59,9 @@ class VisitorService
         return Visitor::all();
     }
 
-    public function delete(Visitor $visitor): void
+    public function delete(Visitor $visitor, ?Volunteer $actor = null): void
     {
-        $this->logger->logDelete($visitor);
+        $this->logger->logDelete($visitor, $actor);
         $visitor->delete();
     }
 }

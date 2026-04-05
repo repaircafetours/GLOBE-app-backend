@@ -1,11 +1,14 @@
 info:
-  name: Add visitor
+  name: Add visitor by volunteer
   type: http
-  seq: 1
+  seq: 2
 
 http:
   method: POST
-  url: http://localhost:8000/api/v1/visitors
+  url: "{{baseUrl}}/api/v1/visitors"
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
   body:
     type: json
     data: |-
@@ -15,11 +18,11 @@ http:
         "surname": "Younes",
         "zip_code": "370000",
         "city": "tours",
-        "source": "",
+        "phone_number": "0600000000",
+        "source": "tyhu",
         "notification": true,
         "email": "a@a.com"
       }
-  auth: inherit
 
 settings:
   encodeUrl: true

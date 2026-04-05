@@ -23,6 +23,8 @@ class StoreVolunteerRequest extends FormRequest
     {
         return [
             "idHumHub" => "required|unique:volunteers,idHumHub|integer",
+            "password" => "required|string|min:8",
+            "login" => "nullable|string|unique:volunteers,login",
             "extra_attributes" => "nullable|array",
         ];
     }
