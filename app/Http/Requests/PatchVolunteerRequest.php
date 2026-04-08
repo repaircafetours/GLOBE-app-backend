@@ -23,6 +23,7 @@ class PatchVolunteerRequest extends FormRequest
     {
         return [
             "idHumHub" => "nullable|integer",
+            "login" => "nullable|string|unique:volunteers,login",
             "extra_attributes" => "nullable|array",
         ];
     }

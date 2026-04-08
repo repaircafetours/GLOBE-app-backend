@@ -15,6 +15,8 @@ return new class extends Migration {
         Schema::create("volunteers", function (Blueprint $table) {
             $table->id();
             $table->integer("idHumHub");
+            $table->string("password")->nullable();
+            $table->string("login")->nullable()->unique();
             $table->schemalessAttributes("extra_attributes");
         });
     }

@@ -8,15 +8,18 @@ use App\Http\Services\ExtraAttributesService;
 use App\Http\Services\ItemService;
 use App\Models\Item;
 use App\Models\Visitor;
+use App\Models\Volunteer;
 use Illuminate\Http\Request;
 
 class ItemController extends Controller
 {
-
     private ItemService $itemService;
     private ExtraAttributesService $extraAttributesService;
 
-    public function __construct(ItemService $itemService, ExtraAttributesService $extraAttributesService) {
+    public function __construct(
+        ItemService $itemService,
+        ExtraAttributesService $extraAttributesService,
+    ) {
         $this->itemService = $itemService;
         $this->extraAttributesService = $extraAttributesService;
     }
@@ -30,18 +33,24 @@ class ItemController extends Controller
     }
 
     /**
-     * Add a new item to the given visitor
+     * Add a new item to the given visitor.
+     * The authenticated volunteer is recorded as the actor in the audit log.
      */
     public function store(StoreItemRequest $request, Visitor $visitor)
     {
         $item = new Item();
         $this->updateItemObjectFromRequest($request, $item);
-        $this->itemService->appendItemToVisitor($item, $visitor);
+
+        /** @var Volunteer|null $actor */
+        $actor =
+            $request->user() instanceof Volunteer ? $request->user() : null;
+
+        $this->itemService->appendItemToVisitor($item, $visitor, $actor);
     }
 
     /**
      * Show a specific item of the given visitor.
-     * 
+     *
      * The item is fetched by order of creation and availability. This means that using 0 as the item
      * parameter will return the first item of the visitor, 1 will return the second item and so on.
      */
@@ -60,38 +69,63 @@ class ItemController extends Controller
 
     /**
      * Update an existing item.
+     * The authenticated volunteer is recorded as the actor in the audit log.
+     *
      * @param UpdateItemRequest $request The request containing the new item data
-     * @param Item  The old Item object fetched by laravel
+     * @param Item $item The old Item object fetched by Laravel
      */
     public function update(UpdateItemRequest $request, Item $item)
     {
         $this->updateItemObjectFromRequest($request, $item);
-        $this->itemService->save($item);
+
+        /** @var Volunteer|null $actor */
+        $actor =
+            $request->user() instanceof Volunteer ? $request->user() : null;
+
+        $this->itemService->save($item, $actor);
     }
 
     /**
      * Remove an item.
+     * The authenticated volunteer is recorded as the actor in the audit log.
      */
-    public function destroy(Item $item)
+    public function destroy(Request $request, Item $item)
     {
-        $this->itemService->delete($item);
+        /** @var Volunteer|null $actor */
+        $actor =
+            $request->user() instanceof Volunteer ? $request->user() : null;
+
+        $this->itemService->delete($item, $actor);
     }
 
     /**
      * Updates the item object given in parameter with the request data.
-     * 
-     * This method **does not** handle any enforcement the model may have
+     *
+     * This method **does not** handle any enforcement the model may have.
+     *
      * @param Request $request
-     * @param Item $item
+     * @param Item    $item
      * @return void
      */
-    private function updateItemObjectFromRequest(Request $request, Item $item) {
+    private function updateItemObjectFromRequest(
+        Request $request,
+        Item $item,
+    ): void {
         // Users may send an integer, so we need to cast it to a float
-        $item->castAndSet("weight",  $request->input("weight", $item->weight ?? null));
+        $item->castAndSet(
+            "weight",
+            $request->input("weight", $item->weight ?? null),
+        );
         $item->age = $request->input("age", $item->age ?? null);
         $item->name = $request->input("name", $item->name ?? null);
-        $item->is_electric = $request->input("is_electric", $item->is_electric ?? false);
+        $item->is_electric = $request->input(
+            "is_electric",
+            $item->is_electric ?? false,
+        );
         $item->brand = $request->input("brand", $item->brand ?? null);
-        $this->extraAttributesService->updateAttributes($item, $request->input("extra_attributes", $item->extra_attributes ?? []));
+        $this->extraAttributesService->updateAttributes(
+            $item,
+            $request->input("extra_attributes", $item->extra_attributes ?? []),
+        );
     }
 }

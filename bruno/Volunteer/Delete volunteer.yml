@@ -1,12 +1,14 @@
 info:
   name: Delete volunteer
   type: http
-  seq: 8
+  seq: 7
 
 http:
   method: DELETE
-  url: http://localhost:8000/api/v1/volunteers/3
-  auth: inherit
+  url: "{{baseUrl}}/api/v1/volunteers/1"
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
 
 settings:
   encodeUrl: true

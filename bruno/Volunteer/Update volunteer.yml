@@ -1,18 +1,20 @@
 info:
-  name: update Item
+  name: Update volunteer
   type: http
-  seq: 7
+  seq: 5
 
 http:
   method: PATCH
-  url: http://localhost:8000/api/v1/items/1
+  url: "{{baseUrl}}/api/v1/volunteers/4"
   body:
     type: json
     data: |-
       {
-        "weight": 999
+        "idHumHub": 1
       }
-  auth: inherit
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
 
 settings:
   encodeUrl: true

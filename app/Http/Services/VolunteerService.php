@@ -15,21 +15,23 @@ class VolunteerService
         $this->logger = $logger;
     }
 
-    public function save(Volunteer $volunteer): void
+    public function save(Volunteer $volunteer, ?Volunteer $actor = null): void
     {
         if ($volunteer->exists) {
-            $old = $volunteer->fresh();
+            // Fetch the old state BEFORE overwriting it with save()
+            $old = $volunteer->fresh() ?? new Volunteer();
             $volunteer->save();
-            $this->logger->log($volunteer, $old ?? new Volunteer());
+            $this->logger->log($volunteer, $old, $actor);
         } else {
             $volunteer->save();
-            $this->logger->log($volunteer, new Volunteer());
+            $this->logger->log($volunteer, new Volunteer(), $actor);
         }
     }
 
     /**
      * Returns the current database instance of the volunteer,
      * or a new empty instance if it has not been saved yet.
+     *
      * @param Volunteer $volunteer
      * @return Volunteer The database instance of the requested volunteer, or an empty instance if it does not exist
      */
@@ -53,9 +55,9 @@ class VolunteerService
         return Volunteer::all();
     }
 
-    public function delete(Volunteer $volunteer): void
+    public function delete(Volunteer $volunteer, ?Volunteer $actor = null): void
     {
-        $this->logger->logDelete($volunteer);
+        $this->logger->logDelete($volunteer, $actor);
         $volunteer->delete();
     }
 }

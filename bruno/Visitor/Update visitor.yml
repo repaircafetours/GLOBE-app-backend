@@ -5,15 +5,16 @@ info:
 
 http:
   method: PATCH
-  url: http://localhost:8000/api/v1/visitors/1
+  url: "{{baseUrl}}/api/v1/visitors/1"
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
   body:
     type: json
     data: |-
       {
-        id: 1,
-        notification: false
+        "notification": false
       }
-  auth: inherit
 
 settings:
   encodeUrl: true

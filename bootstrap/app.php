@@ -12,7 +12,11 @@ return Application::configure(basePath: dirname(__DIR__))
         health: "/up",
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            "role" => \App\Http\Middleware\CheckRole::class,
+            "authorize.visitor.update" =>
+                \App\Http\Middleware\AuthorizeVisitorUpdate::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

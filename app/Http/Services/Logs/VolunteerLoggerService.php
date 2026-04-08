@@ -23,41 +23,42 @@ class VolunteerLoggerService implements InterfaceLoggerService
     }
 
     /**
-     * TODO: manage case when volunteer is null
+     * Persists a log entry for an update/create action on a volunteer.
+     *
+     * @param Model          $new       The updated/created volunteer
+     * @param Model          $old       The previous state (empty model for creation)
+     * @param Volunteer|null $volunteer The volunteer who performed the action (null = system)
      */
     public function log(
         Model $new,
         Model $old,
         ?Volunteer $volunteer = null,
     ): void {
-        if ($volunteer === null) {
-            return;
-        }
         $columns = $this->logsService->buildUpdatedColumns($old, $new);
 
         $log = $this->logsService->create($volunteer);
         $this->logsService->attachColumns($log, $columns);
 
-        $logsVisitor = new LogsVolunteer();
-        $logsVisitor->logs_id = $log->id;
-        $logsVisitor->volunteer_id = $new->id;
-        $logsVisitor->save();
+        $logsVolunteer = new LogsVolunteer();
+        $logsVolunteer->logs_id = $log->id;
+        $logsVolunteer->volunteer_id = $new->id;
+        $logsVolunteer->save();
     }
 
     /**
-     * TODO: manage case when volunteer is null
+     * Persists a log entry for a delete action on a volunteer.
+     *
+     * @param Model          $model     The volunteer being deleted
+     * @param Volunteer|null $volunteer The volunteer who performed the action (null = system)
      */
     public function logDelete(Model $model, ?Volunteer $volunteer = null): void
     {
-        if ($volunteer === null) {
-            return;
-        }
         $log = $this->logsService->create($volunteer);
 
-        $logsVisitor = new LogsVolunteer();
-        $logsVisitor->logs_id = $log->id;
-        $logsVisitor->volunteer_id = $model->id;
-        $logsVisitor->save();
+        $logsVolunteer = new LogsVolunteer();
+        $logsVolunteer->logs_id = $log->id;
+        $logsVolunteer->volunteer_id = $model->id;
+        $logsVolunteer->save();
     }
 
     public function updatedColumns(Model $model): array
