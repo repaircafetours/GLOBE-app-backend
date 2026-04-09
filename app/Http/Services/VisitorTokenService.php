@@ -50,7 +50,7 @@ class VisitorTokenService
      * Check whether the supplied plain-text token is valid for the given visitor.
      * An expired token is treated as invalid.
      * The token is NOT consumed so the visitor can make several PATCH calls
-     * within the 10-minute window.
+     * within the 1-hour window.
      */
     public function isValid(Visitor $visitor, string $plainToken): bool
     {

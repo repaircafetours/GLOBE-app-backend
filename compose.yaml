@@ -20,6 +20,9 @@ services:
       LOG_DEPRECATIONS_CHANNEL: null
       LOG_LEVEL: debug
       APP_MAINTENANCE_DRIVER: file
+      MAIL_ENCRYPTION: tls
+      MAIL_FROM_ADDRESS: "noreply@repair-cafe-tours.fr"
+      MAIL_FROM_NAME: "Repair Café Tours"
     networks:
       backend:
         ipv4_address: 172.16.0.100

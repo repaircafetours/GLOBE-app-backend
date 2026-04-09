@@ -13,7 +13,7 @@ return new class extends Migration {
                 ->foreignId("visitor_id")
                 ->constrained("visitors")
                 ->cascadeOnDelete();
-            $table->string("token", 64)->unique();
+            $table->string("token", 64);
             $table->dateTime("expires_at");
             $table->dateTime("created_at");
         });
