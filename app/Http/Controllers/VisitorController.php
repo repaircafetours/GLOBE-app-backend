@@ -6,7 +6,7 @@ use App\Http\Requests\StoreVisitorRequest;
 use App\Http\Requests\UpdateVisitorRequest;
 use App\Http\Services\ExtraAttributesService;
 use App\Http\Services\VisitorService;
-use App\Http\Services\VisitorTokenService;
+// use App\Http\Services\VisitorTokenService;
 use App\Models\Visitor;
 use App\Models\Volunteer;
 use Illuminate\Http\JsonResponse;
@@ -17,7 +17,7 @@ class VisitorController extends Controller
     public function __construct(
         private VisitorService $visitorService,
         private ExtraAttributesService $extraAttributesService,
-        private VisitorTokenService $tokenService,
+        // private VisitorTokenService $tokenService,
     ) {}
 
     /**
@@ -116,7 +116,7 @@ class VisitorController extends Controller
             $request->header("X-Visitor-Token");
 
         if ($plainToken !== null) {
-            $this->tokenService->revoke($visitor);
+            // $this->tokenService->revoke($visitor);
         }
 
         return $visitor;
