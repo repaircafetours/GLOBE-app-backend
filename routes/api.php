@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EventController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\VisitorController;
@@ -32,6 +33,15 @@ Route::patch($rootV1 . "/visitors/{visitor}", [
 Route::middleware("auth:sanctum")->group(function () use ($rootV1) {
     // Auth
     Route::post($rootV1 . "/auth/logout", [AuthController::class, "logout"]);
+
+    Route::get("/v1/events", [EventController::class, 'index']);
+    Route::post("/v1/events", [EventController::class, 'store']);
+    Route::get("/v1/events/{event}", [EventController::class, 'show']);
+    Route::patch("/v1/events/{event}", [EventController::class, 'update']);
+    Route::delete("/v1/events/{event}", [EventController::class, 'destroy']);
+    Route::post("/v1/events/{event}/appointments/{item}", [EventController::class, 'addNewItemToEvent']);
+    Route::get("/v1/events/{event}/appointments", [EventController::class, "getAppointmentsFromEvent"]);
+    Route::patch("/v1/events/{event}/appointments/{item}", [EventController::class, "updateAppointment"]);
 
     // Read a single visitor or volunteer (any authenticated volunteer)
     Route::get($rootV1 . "/visitors/{visitor}", [

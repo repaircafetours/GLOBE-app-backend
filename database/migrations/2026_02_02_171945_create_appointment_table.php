@@ -14,10 +14,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('appointment', function (Blueprint $table) {
-            $table->string('comment');
+            $table->string('comment')
+                ->nullable();
             $table->dateTime('appointment_date', 0);
-            $table->integer('satisfaction_rating');
-            $table->timestamps();
+            $table->integer('satisfaction_rating')
+                ->nullable();
             $table->foreignIdFor(Item::class)
                 ->constrained()
                 ->cascadeOnDelete()

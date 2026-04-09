@@ -1,0 +1,28 @@
+info:
+  name: Add a new event
+  type: http
+  seq: 2
+
+http:
+  method: POST
+  url: http://localhost:8000/api/v1/events
+  headers:
+    - name: Accept
+      value: application/json
+    - name: Authorization
+      value: Bearer {{bearerToken}}
+  body:
+    type: json
+    data: |-
+      {
+        "city": "Tours",
+        "zip_code": "37000",
+        "address": "22 rue",
+        "date": "2026-05-30T22:00:00.000000Z"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

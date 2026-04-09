@@ -1,0 +1,18 @@
+info:
+  name: Delete event
+  type: http
+  seq: 9
+
+http:
+  method: DELETE
+  url: http://localhost:8000/api/v1/events/1
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

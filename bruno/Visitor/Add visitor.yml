@@ -5,6 +5,9 @@ info:
 
 http:
   method: POST
+  headers:
+    - name: Accept
+      value: application/json
   url: "{{baseUrl}}/api/v1/visitors"
   body:
     type: json
@@ -18,7 +21,8 @@ http:
         "phone_number": "0600000000",
         "source": "tyhu",
         "notification": true,
-        "email": "a@a.com"
+        "email": "a@a.com",
+        "source": "bouche a oreille"
       }
 
 settings:

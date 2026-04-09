@@ -123,9 +123,6 @@ class ItemController extends Controller
             $item->is_electric ?? false,
         );
         $item->brand = $request->input("brand", $item->brand ?? null);
-        $this->extraAttributesService->updateAttributes(
-            $item,
-            $request->input("extra_attributes", $item->extra_attributes ?? []),
-        );
+        $this->extraAttributesService->updateAttributes($item, $request->input("extra_attributes", $item->extra_attributes));
     }
 }
