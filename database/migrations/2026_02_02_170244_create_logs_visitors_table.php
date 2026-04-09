@@ -23,7 +23,7 @@ return new class extends Migration {
                 ->foreignIdFor(Logs::class)
                 ->constrained()
                 ->cascadeOnDelete()
-                ->cascadeOnDelete();
+                ->cascadeOnUpdate();
         });
     }
 

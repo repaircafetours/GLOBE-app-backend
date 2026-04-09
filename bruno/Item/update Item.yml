@@ -1,0 +1,23 @@
+info:
+  name: update Item
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/api/v1/items/1"
+  body:
+    type: json
+    data: |-
+      {
+        "weight": 999
+      }
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

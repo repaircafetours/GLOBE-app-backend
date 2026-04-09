@@ -31,7 +31,7 @@ class StoreVisitorRequest extends FormRequest
             "source" => "required|string",
             "notification" => "boolean",
             "email" => "required|email",
-            'extra_attributes' => 'nullable|object',
+            "extra_attributes" => "nullable|object",
         ];
     }
 }

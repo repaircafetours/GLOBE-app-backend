@@ -1,0 +1,23 @@
+info:
+  name: Replace volunteer roles
+  type: http
+  seq: 4
+
+http:
+  method: PUT
+  url: "{{baseUrl}}/api/v1/volunteers/1/roles"
+  body:
+    type: json
+    data: |-
+      {
+        "role_ids": [1, 2]
+      }
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

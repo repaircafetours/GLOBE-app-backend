@@ -3,33 +3,54 @@
 namespace App\Http\Services\Logs;
 
 use App\Http\Services\VisitorService;
-use App\Models\Visitor;
+use App\Models\Logs\LogsVisitor;
+use App\Models\Volunteer;
+use Illuminate\Database\Eloquent\Model;
 
-class VisitorLoggerService {
-
+class VisitorLoggerService implements InterfaceLoggerService
+{
     private VisitorService $service;
 
+    public function __construct(private LogsService $logsService) {}
 
     /**
-     * An initializer function that should only be called once within the service provider.
-     * 
-     * We use this method to resolve the circular dependency between VisitorService and VisitorLoggerService.
-     * @param VisitorService $service
-     * @return void
+     * À appeler une seule fois depuis le ServiceProvider
+     * pour casser la dépendance circulaire.
      */
-    public function initialize(VisitorService $service) {
+    public function initialize(VisitorService $service): void
+    {
         $this->service = $service;
     }
 
+    public function log(
+        Model $new,
+        Model $old,
+        ?Volunteer $volunteer = null,
+    ): void {
+        $columns = $this->logsService->buildUpdatedColumns($old, $new);
 
-    public function log(Visitor $visitor) {
-        $this->service->getFromVisitor($visitor);
+        $log = $this->logsService->create($volunteer);
+        $this->logsService->attachColumns($log, $columns);
 
-        // TODO : Complete logger when the column table is available
+        $logsVisitor = new LogsVisitor();
+        $logsVisitor->logs_id = $log->id;
+        $logsVisitor->visitor_id = $new->id;
+        $logsVisitor->save();
     }
 
-    public function logDelete(Visitor $visitor) {
-        // TODO : Complete logger when the column table is available
+    public function logDelete(Model $model, ?Volunteer $volunteer = null): void
+    {
+        $log = $this->logsService->create($volunteer);
+
+        $logsVisitor = new LogsVisitor();
+        $logsVisitor->logs_id = $log->id;
+        $logsVisitor->visitor_id = $model->id;
+        $logsVisitor->save();
     }
 
+    public function updatedColumns(Model $model): array
+    {
+        $old = $this->service->getFromVisitor($model);
+        return $this->logsService->buildUpdatedColumns($old, $model);
+    }
 }

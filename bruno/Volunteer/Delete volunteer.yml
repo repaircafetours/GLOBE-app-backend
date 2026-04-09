@@ -1,0 +1,17 @@
+info:
+  name: Delete volunteer
+  type: http
+  seq: 7
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/api/v1/volunteers/1"
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

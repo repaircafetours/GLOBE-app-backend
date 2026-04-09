@@ -1,7 +1,7 @@
 opencollection: 1.0.0
 
 info:
-  name: Visitor testing
+  name: Item
 bundled: false
 extensions:
   bruno:
