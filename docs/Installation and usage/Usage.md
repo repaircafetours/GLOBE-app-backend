@@ -30,6 +30,9 @@ php artisan key:generate
 - `DB_DATABASE` : The name of the database laravel will use.
 - `DB_USERNAME` : The username for the used database.
 - `DB_PASSWORD` : The password for selected user.
+- `MAIL_ENCRYPTION` : The encryption method for emails
+- `MAIL_FROM_ADDRESS` : The email address which will send the emails
+- `MAIL_FROM_NAME` : The name of the sender
 
 ## Run the application
 

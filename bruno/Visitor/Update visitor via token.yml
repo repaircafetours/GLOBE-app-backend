@@ -1,0 +1,21 @@
+info:
+  name: Update visitor via token
+  type: http
+  seq: 7
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/api/v1/visitors/1"
+  body:
+    type: json
+    data: |-
+      {
+        "notification": false,
+        "visitor_token": "{{visitorEditToken}}"
+      }
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
