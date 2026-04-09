@@ -6,6 +6,9 @@ info:
 http:
   method: PATCH
   url: http://localhost:8000/api/v1/events/1
+  headers:
+    - name: Authorization
+      value: Bearer {{bearerToken}}
   body:
     type: json
     data: |-

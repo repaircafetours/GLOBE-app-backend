@@ -9,6 +9,8 @@ http:
   headers:
     - name: Accept
       value: application/json
+    - name: Authorization
+      value: Bearer {{bearerToken}}
   body:
     type: json
     data: |-
