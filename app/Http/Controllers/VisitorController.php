@@ -45,7 +45,10 @@ class VisitorController extends Controller
         $visitor->source = $request->input("source");
         $visitor->notification = $request->input("notification", false);
         $visitor->email = $request->input("email");
-        $this->extraAttributesService->updateAttributes($visitor, $request->input("extra_attributes", []));
+        $extra_attributes = $request->input("extra_attributes", null);
+        if ($extra_attributes) {
+            $this->extraAttributesService->updateAttributes($visitor, $extra_attributes);
+        }
         $this->visitorService->save($visitor);
     }
 

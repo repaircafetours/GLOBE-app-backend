@@ -6,6 +6,9 @@ info:
 http:
   method: POST
   url: http://localhost:8000/api/v1/visitors
+  headers:
+    - name: Accept
+      value: application/json
   body:
     type: json
     data: |-
@@ -17,7 +20,8 @@ http:
         "city": "tours",
         "source": "",
         "notification": true,
-        "email": "a@a.com"
+        "email": "a@a.com",
+        "source": "bouche a oreille"
       }
   auth: inherit
 

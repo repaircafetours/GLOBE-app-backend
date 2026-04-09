@@ -13,12 +13,11 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('date');
+            $table->timestamp("date", 6);
             $table->string('city');
             $table->string('zip_code');
             $table->string('address');
             $table->schemalessAttributes("extra_attributes");
-            $table->timestamps();
         });
     }
 

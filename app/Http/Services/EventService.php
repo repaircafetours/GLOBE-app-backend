@@ -2,9 +2,11 @@
 
 namespace App\Http\Services;
 
+use App\Http\Requests\UpdateAppointmentRequest;
 use App\Models\Event;
 use App\Models\Item;
 use App\Models\Visitor;
+use Illuminate\Support\Carbon;
 
 class EventService {
 
@@ -17,9 +19,48 @@ class EventService {
         return Event::find($id);
     }
 
-    public function addVisitorItemToEvent(Event $event, Item $item) {
-        $event->items()->save($item);
+    public function getAppointments(Event $event) {
+        $items = $event->items()->get();
+        $res = [];
+        $i = 0;
+        foreach ($items as $item) {
+            $res[$i] = $item->pivot;
+            $i++;
+        }
+        return $res;
+    }
+
+    public function addVisitorItemToEvent(Event $event, Item $item, Carbon $appointment_date) {
+        $event->items()->attach($item->id, [
+            "appointment_date" => $appointment_date
+        ]);
         $event->save();
+    }
+
+    public function updateVisitorAppointment(
+        Event $event,
+        Item $item,
+        ?Carbon $appointment_date = null,
+        ?int $satisfaction_rating = null,
+        ?string $comment
+    ) {    
+        $appointment = $event
+            ->items()
+            ->wherePivot("event_id", $event->id)
+            ->wherePivot("item_id", $item->id)
+            ->first();
+        if ($appointment) {
+            $updateData = [];
+            if ($satisfaction_rating !== null) {
+                $updateData['satisfaction_rating'] = $satisfaction_rating;
+            }
+            if ($comment !== null) {
+                $updateData['comment'] = $comment;
+            }
+            if (!empty($updateData)) {
+                $event->items()->updateExistingPivot($item->id, $updateData, false);
+            }
+        }
     }
 
     /**

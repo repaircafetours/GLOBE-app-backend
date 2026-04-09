@@ -27,7 +27,7 @@ class StoreVisitorRequest extends FormRequest
             "surname" => "required|string",
             "zip_code" => "required|string",
             "city" => "required|string",
-            "phone_number" => "required|string",
+            "phone_number" => "nullable|string",
             "source" => "required|string",
             "notification" => "boolean",
             "email" => "required|email",

@@ -1,11 +1,11 @@
 info:
-  name: Add a new event
+  name: Add item to event
   type: http
-  seq: 2
+  seq: 7
 
 http:
   method: POST
-  url: http://localhost:8000/api/v1/events
+  url: http://localhost:8000/api/v1/events/1/appointments/1
   headers:
     - name: Accept
       value: application/json
@@ -13,11 +13,9 @@ http:
     type: json
     data: |-
       {
-        "city": "Tours",
-        "zip_code": "37000",
-        "address": "22 rue",
-        "date": "2026-05-30T22:00:00.000000Z"
+        "date": "2026-05-30T23:00:00.000000Z"
       }
+  auth: inherit
 
 settings:
   encodeUrl: true
