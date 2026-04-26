@@ -9,7 +9,6 @@ use App\Http\Services\VisitorService;
 use App\Http\Services\VisitorTokenService;
 use App\Models\Visitor;
 use App\Models\Volunteer;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class VisitorController extends Controller
@@ -103,9 +102,6 @@ class VisitorController extends Controller
      *   - An authenticated volunteer with role Opérationnel (3) or Administrateur (1), OR
      *   - A valid visitor edit token supplied in the request.
      *
-     * When the update is performed via a visitor token, the actor in the audit
-     * log is null (the visitor modified their own profile). The token is revoked
-     * immediately after a successful save so it cannot be reused.
      */
     public function update(UpdateVisitorRequest $request, Visitor $visitor)
     {
@@ -139,16 +135,6 @@ class VisitorController extends Controller
                 : null;
 
         $this->visitorService->save($visitor, $actor);
-
-        // If this update was performed using a visitor edit token, revoke it
-        // now so it cannot be reused (single-use after successful save).
-        $plainToken =
-            $request->input("visitor_token") ??
-            $request->header("X-Visitor-Token");
-
-        if ($plainToken !== null) {
-            // $this->tokenService->revoke($visitor);
-        }
 
         return $visitor;
     }
