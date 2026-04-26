@@ -124,7 +124,7 @@ class VisitorController extends Controller
             $visitor,
             $request->input(
                 "extra_attributes",
-                $visitor->extra_attributes->toArray() ?? [],
+                $visitor->extra_attributes ?? null,
             ),
         );
 
