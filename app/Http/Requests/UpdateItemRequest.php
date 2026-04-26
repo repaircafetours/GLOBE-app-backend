@@ -22,6 +22,7 @@ class UpdateItemRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "weight" => "nullable|numeric|min:0",
             "name" => "nullable|string",
             "age" => "nullable|integer",
             "is_electric" => "nullable|boolean",

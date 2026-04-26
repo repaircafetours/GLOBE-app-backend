@@ -22,6 +22,7 @@ class StoreItemRequest extends FormRequest
     public function rules(): array
     {
         return [
+            "weight" => "required|numeric|min:0",
             "name" => "required|string",
             "age" => "required|integer",
             "is_electric" => "required|boolean",
