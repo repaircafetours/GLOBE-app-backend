@@ -1,5 +1,5 @@
 info:
-  name: Get specific item frfom visitor
+  name: Get specific item from visitor
   type: http
   seq: 3
 
