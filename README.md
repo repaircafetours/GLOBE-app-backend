@@ -1,11 +1,19 @@
-# About the API
+# À propos de l'API
 
-This backend is a REST API handling reparation events for repaircafe.
+Ce backend est une API REST gérant les événements de réparation Repair Café.
 
-# Documentation
+## Licence
 
-You can reach the documentation [at the documentation repo](https://github.com/repaircafetours/Documentation).
+Ce logiciel est distribué sous **GNU AGPL v3.0 _only_**
+(`SPDX-License-Identifier: AGPL-3.0-only`).
 
-## API reference
+La version 3 s'applique exclusivement ; les versions ultérieures
+de l'AGPL ne s'appliquent pas automatiquement.
 
-Once you launched the API, you can reach the API reference at [localhost:8000/docs/api](http://localhost:8000/docs/api)
+## Documentation
+
+Vous pouvez consulter la documentation [dans le dépôt de documentation](https://github.com/repaircafetours/GLOBE-documentation).
+
+## Référence de l'API
+
+Une fois l'API lancée, vous pouvez accéder à la référence de l'API à l'adresse [localhost:8000/docs/api](http://localhost:8000/docs/api).
